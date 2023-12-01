@@ -5,12 +5,12 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
-    "lib": ["esnext"],
     "moduleResolution": "node",
-    "module": "esnext",
+    "module": "CommonJS",
+    "lib": ["ESNext"],
+    "target": "ESNext",
     "noEmit": true,
-    "resolveJsonModule": true,
-    "target": "es5"
+    "resolveJsonModule": true
   },
   "include": [ "src/**/*.ts" ],
   "exclude": [ "node_modules" ]
