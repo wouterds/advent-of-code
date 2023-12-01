@@ -12,6 +12,10 @@ export abstract class AbstractProgram {
     this.load();
   }
 
+  protected set solution(value: string) {
+    this._solution = value;
+  }
+
   public get solution() {
     return this._solution || 'n/a';
   }
