@@ -4,11 +4,16 @@ import path from 'path';
 export abstract class AbstractProgram {
   protected name: string;
   protected data: string;
+  private _solution: string;
 
   protected constructor(name: string) {
     this.name = name;
 
     this.load();
+  }
+
+  public get solution() {
+    return this._solution || 'n/a';
   }
 
   public load() {

@@ -1,6 +1,5 @@
-type Output = string | undefined;
-
 export interface IProgram {
   load(): void;
-  run(): Promise<Output>;
+  run(): Promise<void>;
+  solution: string | undefined;
 }

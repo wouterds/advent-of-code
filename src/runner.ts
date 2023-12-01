@@ -27,12 +27,13 @@ if (!fs.existsSync(path.resolve(__dirname, `./programs/${programName}.ts`))) {
   console.log(chalk.yellow(`Running program ${programName}...`));
 
   const start = Date.now();
-  const program = (await import(`./programs/${programName}`)).default;
-  const output = await new program().run();
+  const Program = (await import(`./programs/${programName}`)).default;
+  const program = new Program();
+  await program.run();
   const end = Date.now();
 
   console.log(
     chalk.green(`Finished running program ${programName} in ${end - start}ms`),
   );
-  console.log(chalk.blueBright('Output:', output));
+  console.log(chalk.blueBright('Output:', program.solution));
 })();

@@ -6,9 +6,7 @@ class Program extends AbstractProgram implements IProgram {
     super('2023-01-1');
   }
 
-  public async run(): Promise<string> {
-    return;
-  }
+  public async run() {}
 }
 
 export default Program;
