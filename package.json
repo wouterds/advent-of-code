@@ -5,7 +5,8 @@
   "scripts": {
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
     "lint:fix": "eslint --ext .js,.jsx,.ts,.tsx --fix ./src",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "start": "ts-node ./src/runner.ts"
   },
   "dependencies": {
     "chalk": "^4.1.2",
