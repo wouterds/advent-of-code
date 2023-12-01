@@ -18,23 +18,21 @@ if (!pattern.test(programName)) {
   process.exit(1);
 }
 
-console.log(chalk.magentaBright(`Loading program ${programName}`));
 if (!fs.existsSync(path.resolve(__dirname, `./programs/${programName}.ts`))) {
   console.log(chalk.red(`Program ${programName} does not exist`));
   process.exit(1);
 }
 
 (async () => {
+  console.log(chalk.yellow(`Running program ${programName}...`));
+
   const start = Date.now();
-  console.log(chalk.yellow(`Running program ${programName}`));
-
-  const { run } = await import(`./programs/${programName}`);
-
-  await run();
-
+  const program = (await import(`./programs/${programName}`)).default;
+  const output = await new program().run();
   const end = Date.now();
 
   console.log(
     chalk.green(`Finished running program ${programName} in ${end - start}ms`),
   );
+  console.log(chalk.blueBright('Output:', output));
 })();
