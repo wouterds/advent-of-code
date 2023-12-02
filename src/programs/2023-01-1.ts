@@ -1,3 +1,5 @@
+import chalk from 'chalk';
+
 import { AbstractProgram } from '../abstracts/program';
 import { IProgram } from '../interfaces/program';
 
@@ -11,17 +13,14 @@ class Program extends AbstractProgram implements IProgram {
 
     let total = 0;
     for (const line of lines) {
-      const firstNumber = line.match(/\d/g)?.shift?.();
-      const lastNumber = line.match(/\d/g)?.pop?.();
-      if (!firstNumber) {
-        continue;
-      }
+      process.stdout.write(`[${chalk.yellow(total)}] ${line}`);
 
-      const number = parseInt(firstNumber + (lastNumber || firstNumber || ''));
+      const firstNumber = line.match(/\d/g)?.shift?.() || '';
+      const lastNumber = line.match(/\d/g)?.pop?.() || firstNumber;
+      const number = `${firstNumber}${lastNumber}`;
+      console.log(chalk.green(` ${number}`));
 
-      total += number;
-
-      console.log(`Line: ${line}, number:`, number, 'sub-total:', total);
+      total += parseInt(number);
     }
 
     this.solution = total.toString();
