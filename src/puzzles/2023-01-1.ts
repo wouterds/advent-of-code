@@ -1,9 +1,9 @@
 import chalk from 'chalk';
 
-import { AbstractProgram } from '../abstracts/program';
-import { IProgram } from '../interfaces/program';
+import { AbstractPuzzle } from '../abstracts/puzzle';
+import { Puzzle } from '../interfaces/puzzle';
 
-class Program extends AbstractProgram implements IProgram {
+class Puzzle2023011 extends AbstractPuzzle implements Puzzle {
   private constructor() {
     super('2023-01-input.txt');
   }
@@ -23,8 +23,8 @@ class Program extends AbstractProgram implements IProgram {
       total += parseInt(number);
     }
 
-    this.solution = total.toString();
+    this.output = total.toString();
   }
 }
 
-export default Program;
+export default Puzzle2023011;

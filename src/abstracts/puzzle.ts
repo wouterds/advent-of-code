@@ -1,10 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 
-export abstract class AbstractProgram {
+export abstract class AbstractPuzzle {
   protected path: string;
   protected data: string;
-  private _solution: string;
+  private _output: string;
 
   protected constructor(inputDataPath: string) {
     if (!inputDataPath) {
@@ -15,12 +15,12 @@ export abstract class AbstractProgram {
     this.load();
   }
 
-  protected set solution(value: string) {
-    this._solution = value;
+  protected set output(value: string) {
+    this._output = value;
   }
 
-  public get solution() {
-    return this._solution || 'n/a';
+  public get output() {
+    return this._output || 'n/a';
   }
 
   public load() {
