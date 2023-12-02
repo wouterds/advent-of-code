@@ -2,13 +2,16 @@ import fs from 'fs';
 import path from 'path';
 
 export abstract class AbstractProgram {
-  protected name: string;
+  protected path: string;
   protected data: string;
   private _solution: string;
 
-  protected constructor(name: string) {
-    this.name = name;
+  protected constructor(inputDataPath: string) {
+    if (!inputDataPath) {
+      throw new Error('Missing input data path');
+    }
 
+    this.path = inputDataPath;
     this.load();
   }
 
@@ -21,10 +24,7 @@ export abstract class AbstractProgram {
   }
 
   public load() {
-    const fullPath = path.resolve(
-      __dirname,
-      `../../data/${this.name}-input.txt`,
-    );
+    const fullPath = path.resolve(__dirname, `../../data/${this.path}`);
     const data = fs.readFileSync(fullPath);
 
     this.data = data.toString('utf-8');

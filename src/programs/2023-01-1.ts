@@ -3,7 +3,7 @@ import { IProgram } from '../interfaces/program';
 
 class Program extends AbstractProgram implements IProgram {
   private constructor() {
-    super('2023-01-1');
+    super('2023-01-input.txt');
   }
 
   public async run() {
