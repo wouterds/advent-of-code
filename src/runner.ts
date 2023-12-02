@@ -3,6 +3,8 @@ import { program as parser } from 'commander';
 import fs from 'fs';
 import path from 'path';
 
+import { IProgram } from './interfaces/program';
+
 parser.option('-p, --program <type>', 'Specify a program');
 parser.parse(process.argv);
 
@@ -28,7 +30,7 @@ if (!fs.existsSync(path.resolve(__dirname, `./programs/${programName}.ts`))) {
 
   const start = Date.now();
   const Program = (await import(`./programs/${programName}`)).default;
-  const program = new Program();
+  const program: IProgram = new Program();
   await program.run();
   const end = Date.now();
 
