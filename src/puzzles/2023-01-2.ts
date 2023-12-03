@@ -4,11 +4,11 @@ import { AbstractPuzzle } from '../abstracts/puzzle';
 import { Puzzle } from '../interfaces/puzzle';
 
 class Puzzle2023012 extends AbstractPuzzle implements Puzzle {
-  private constructor() {
+  constructor() {
     super('2023-01-input.txt');
   }
 
-  private wordNumberMap = {
+  private _numberMap = {
     one: 1,
     two: 2,
     three: 3,
@@ -20,10 +20,10 @@ class Puzzle2023012 extends AbstractPuzzle implements Puzzle {
     nine: 9,
   };
 
-  private findFirstNumber(string: string): number {
+  private _findFirstNumber(string: string): number {
     let number = 0;
     let lowestIndex = Infinity;
-    for (const word of Object.keys(this.wordNumberMap)) {
+    for (const word of Object.keys(this._numberMap)) {
       const index = string.indexOf(word);
       if (index === -1) {
         continue;
@@ -31,7 +31,7 @@ class Puzzle2023012 extends AbstractPuzzle implements Puzzle {
 
       if (index < lowestIndex) {
         lowestIndex = index;
-        number = this.wordNumberMap[word];
+        number = this._numberMap[word];
       }
     }
 
@@ -47,15 +47,15 @@ class Puzzle2023012 extends AbstractPuzzle implements Puzzle {
     return number;
   }
 
-  private findLastNumber(string: string): number {
+  private _findLastNumber(string: string): number {
     let number = 0;
     let highestIndex = -1;
-    for (const word of Object.keys(this.wordNumberMap)) {
+    for (const word of Object.keys(this._numberMap)) {
       const indexes = string.matchAll(new RegExp(word, 'g'));
       for (const index of indexes) {
         if (index.index > highestIndex) {
           highestIndex = index.index;
-          number = this.wordNumberMap[word];
+          number = this._numberMap[word];
         }
       }
     }
@@ -77,8 +77,8 @@ class Puzzle2023012 extends AbstractPuzzle implements Puzzle {
     for (const line of this.lines) {
       process.stdout.write(`[${chalk.yellow(total)}] ${line}`);
 
-      const firstNumber = this.findFirstNumber(line);
-      const lastNumber = this.findLastNumber(line);
+      const firstNumber = this._findFirstNumber(line);
+      const lastNumber = this._findLastNumber(line);
 
       const number = `${firstNumber}${lastNumber}`;
       console.log(chalk.green(` ${number}`));

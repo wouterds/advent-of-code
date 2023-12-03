@@ -4,30 +4,28 @@ import { AbstractPuzzle } from '../abstracts/puzzle';
 import { Puzzle } from '../interfaces/puzzle';
 
 class Puzzle2023021 extends AbstractPuzzle implements Puzzle {
-  private bag = {
+  private _bag = {
     red: 12,
     green: 13,
     blue: 14,
   };
 
-  private constructor() {
+  constructor() {
     super('2023-02-input.txt');
   }
 
   public async run() {
-
-
     let total = 0;
     for (const line of this.lines) {
-      const id = this.parseIdFromLine(line);
-      const sets = this.parseSetsFromLine(line);
+      const id = this._parseIdFromLine(line);
+      const sets = this._parseSetsFromLine(line);
 
       let possible = true;
       for (const set of sets) {
         if (
-          set.red > this.bag.red ||
-          set.green > this.bag.green ||
-          set.blue > this.bag.blue
+          set.red > this._bag.red ||
+          set.green > this._bag.green ||
+          set.blue > this._bag.blue
         ) {
           possible = false;
           break;
@@ -55,11 +53,11 @@ class Puzzle2023021 extends AbstractPuzzle implements Puzzle {
     this.output = total.toString();
   }
 
-  private parseIdFromLine(line: string): number {
+  private _parseIdFromLine(line: string): number {
     return parseInt(line.split(':')[0].split(' ')[1]);
   }
 
-  private parseSetsFromLine(
+  private _parseSetsFromLine(
     line: string,
   ): Array<{ red: number; green: number; blue: number }> {
     return line

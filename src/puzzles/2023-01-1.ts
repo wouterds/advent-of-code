@@ -4,7 +4,7 @@ import { AbstractPuzzle } from '../abstracts/puzzle';
 import { Puzzle } from '../interfaces/puzzle';
 
 class Puzzle2023011 extends AbstractPuzzle implements Puzzle {
-  private constructor() {
+  constructor() {
     super('2023-01-input.txt');
   }
 
