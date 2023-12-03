@@ -19,7 +19,6 @@ class Puzzle2023031 extends AbstractPuzzle implements Puzzle {
     } = {};
     const lineTotals: Record<number, number> = {};
     for (let y = 0; y < this.lines.length; y++) {
-      const line = this.lines[y];
       const gears = this.gears[y];
 
       for (const gear of gears) {
@@ -121,30 +120,33 @@ class Puzzle2023031 extends AbstractPuzzle implements Puzzle {
   private findAdjacentNumberPositions(x: number, y: number) {
     const adjacentNumbers: Set<string> = new Set();
     for (let j = 0; j < 1; j++) {
-      const numberPos = x + j;
-      const top = this.findGridNumberPosition(y - 1, numberPos);
+      const top = this.findNumber(x, y - 1);
       adjacentNumbers.add(JSON.stringify([top?.x, top?.y]));
 
-      const bottom = this.findGridNumberPosition(y + 1, numberPos);
+      const bottom = this.findNumber(x, y + 1);
       adjacentNumbers.add(JSON.stringify([bottom?.x, bottom?.y]));
 
-      // left
-      if (numberPos === x) {
-        const bottom = this.findGridNumberPosition(y + 1, numberPos - 1);
-        adjacentNumbers.add(JSON.stringify([bottom?.x, bottom?.y]));
+      const right = this.findNumber(x + 1, y);
+      adjacentNumbers.add(JSON.stringify([right?.x, right?.y]));
 
-        const top = this.findGridNumberPosition(y - 1, numberPos - 1);
-        adjacentNumbers.add(JSON.stringify([top?.x, top?.y]));
-      }
+      const left = this.findNumber(x - 1, y);
+      adjacentNumbers.add(JSON.stringify([left?.x, left?.y]));
 
-      // right
-      if (numberPos === x + 1) {
-        const bottom = this.findGridNumberPosition(y + 1, numberPos + 1);
-        adjacentNumbers.add(JSON.stringify([bottom?.x, bottom?.y]));
+      // left bottom corner
+      const leftBottom = this.findNumber(x - 1, y + 1);
+      adjacentNumbers.add(JSON.stringify([leftBottom?.x, leftBottom?.y]));
 
-        const top = this.findGridNumberPosition(y - 1, numberPos + 1);
-        adjacentNumbers.add(JSON.stringify([top?.x, top?.y]));
-      }
+      // left top corner
+      const leftTop = this.findNumber(x - 1, y - 1);
+      adjacentNumbers.add(JSON.stringify([leftTop?.x, leftTop?.y]));
+
+      // right bottom corner
+      const rightBottom = this.findNumber(x + 1, y + 1);
+      adjacentNumbers.add(JSON.stringify([rightBottom?.x, rightBottom?.y]));
+
+      // right top corner
+      const rightTop = this.findNumber(x + 1, y - 1);
+      adjacentNumbers.add(JSON.stringify([rightTop?.x, rightTop?.y]));
     }
 
     return adjacentNumbers;
@@ -159,22 +161,18 @@ class Puzzle2023031 extends AbstractPuzzle implements Puzzle {
     const numbers = line?.matchAll(/\d+/g) || [];
 
     for (const data of numbers) {
-      const number = data[0];
-      const startIndex = data.index;
-      const endIndex = startIndex + number.length;
-
-      if (x === startIndex || x <= endIndex) {
-        return number;
+      if (x === data.index && y === y) {
+        return data[0];
       }
     }
   }
 
-  private findGridNumberPosition(linePos: number, charPos: number) {
-    if (typeof linePos === 'undefined' || typeof charPos === 'undefined') {
+  private findNumber(x: number, y: number) {
+    if (typeof x === 'undefined' || typeof y === 'undefined') {
       return;
     }
 
-    const line = this.lines[linePos];
+    const line = this.lines[y];
     const numbers = line.matchAll(/\d+/g);
 
     for (const data of numbers) {
@@ -182,8 +180,8 @@ class Puzzle2023031 extends AbstractPuzzle implements Puzzle {
       const startIndex = data.index;
       const endIndex = startIndex + number.length;
 
-      if (charPos === startIndex || charPos <= endIndex) {
-        return { x: startIndex, y: linePos };
+      if (x >= startIndex && x < endIndex) {
+        return { x: startIndex, y };
       }
     }
   }
