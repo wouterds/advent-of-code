@@ -9,41 +9,113 @@ class Puzzle2023031 extends AbstractPuzzle implements Puzzle {
   }
 
   public async run() {
+    const cogMap: {
+      [pos: string]: {
+        number: string;
+        x: number;
+        y: number;
+        valid: boolean;
+      };
+    } = {};
+    const lineTotals: Record<number, number> = {};
+    for (let y = 0; y < this.lines.length; y++) {
+      const line = this.lines[y];
+      const gears = this.gears[y];
+
+      for (const gear of gears) {
+        if (!lineTotals[y]) {
+          lineTotals[y] = 0;
+        }
+
+        const cogs = Array.from(
+          this.findAdjacentNumberPositions(gear[0], gear[1]),
+        )
+          .map((data) => JSON.parse(data))
+          .map(([x, y]) => {
+            const number = this.findGridNumber(x, y);
+
+            if (number) {
+              return [number, { x, y }];
+            }
+          })
+          .filter(Boolean);
+
+        for (const cog of cogs) {
+          const [number, { x, y }] = cog;
+
+          cogMap[`${x},${y}`] = {
+            number,
+            x,
+            y,
+            valid: cogs.length === 2,
+          };
+        }
+
+        if (cogs.length === 2) {
+          const cog1 = cogs[0][0];
+          const cog2 = cogs[1][0];
+
+          lineTotals[y] += cog1 * cog2;
+        }
+      }
+    }
+
     let total = 0;
-    for (const gear of this.gears) {
-      const positions = Array.from(
-        this.findAdjacentNumberPositions(gear[0], gear[1]),
-      ).map((data) => JSON.parse(data));
+    for (let y = 0; y < this.lines.length; y++) {
+      const line = this.lines[y];
 
-      if (positions.length !== 2) {
-        continue;
+      for (let x = 0; x < line.length; x++) {
+        const char = line[x];
+        const cog = cogMap[`${x},${y}`];
+
+        if (cog) {
+          process.stdout.write(
+            cog.valid ? chalk.green(cog.number) : chalk.red(cog.number),
+          );
+          x += cog.number.length - 1;
+        } else {
+          process.stdout.write(chalk.blue(char));
+        }
       }
 
-      const cog1 = this.findGridNumber(positions[0][0], positions[0][1]);
-      const cog2 = this.findGridNumber(positions[1][0], positions[1][1]);
+      const lineTotal = lineTotals[y] || 0;
+      total += lineTotal;
 
-      if (cog1 && cog2) {
-        total += parseInt(cog1, 10) * parseInt(cog2, 10);
-      }
+      console.log(
+        ` ${chalk.yellow(total)}${
+          lineTotal ? chalk.green(` +${lineTotal}`) : chalk.red(` +0`)
+        }`,
+      );
     }
 
     this.output = total.toString();
   }
 
+  private _gears: {
+    [line: number]: Array<[number, number]>;
+  };
   private get gears() {
-    const positions: Array<[number, number]> = [];
+    if (this._gears) {
+      return this._gears;
+    }
+
+    this._gears = {};
+
     for (let y = 0; y < this.lines.length; y++) {
       const line = this.lines[y];
+      if (!this._gears[y]) {
+        this._gears[y] = [];
+      }
 
       const stars = line.matchAll(/\*/g);
       for (const star of stars) {
         const x = star.index;
 
-        positions.push([x, y]);
+        this._gears[y].push([x, y]);
       }
     }
 
-    return positions;
+    return this._gears;
   }
 
   private findAdjacentNumberPositions(x: number, y: number) {
