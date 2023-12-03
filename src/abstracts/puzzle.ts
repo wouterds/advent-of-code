@@ -15,6 +15,10 @@ export abstract class AbstractPuzzle {
     this.load();
   }
 
+  protected get lines() {
+    return this.data.split('\n');
+  }
+
   protected set output(value: string) {
     this._output = value;
   }

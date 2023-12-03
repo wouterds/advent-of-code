@@ -9,10 +9,8 @@ class Puzzle2023011 extends AbstractPuzzle implements Puzzle {
   }
 
   public async run() {
-    const lines = this.data.split('\n');
-
     let total = 0;
-    for (const line of lines) {
+    for (const line of this.lines) {
       process.stdout.write(`[${chalk.yellow(total)}] ${line}`);
 
       const firstNumber = line.match(/\d/g)?.shift?.() || '';

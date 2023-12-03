@@ -15,10 +15,10 @@ class Puzzle2023021 extends AbstractPuzzle implements Puzzle {
   }
 
   public async run() {
-    const lines = this.data.split('\n');
+
 
     let total = 0;
-    for (const line of lines) {
+    for (const line of this.lines) {
       const id = this.parseIdFromLine(line);
       const sets = this.parseSetsFromLine(line);
 
