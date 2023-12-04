@@ -16,6 +16,36 @@ class Puzzle2023041 extends AbstractPuzzle implements Puzzle {
 
   public async run() {
     const cards = this.cards;
+
+    let total = 0;
+    for (const card of cards) {
+      const score = this.calculateScore(card);
+
+      console.log(`card ${chalk.yellow(card.id)} score: ${chalk.green(score)}`);
+
+      total += score;
+    }
+
+    this.output = total.toString();
+  }
+
+  private calculateScore(card: Card): number {
+    const winning = card.winning;
+    const given = card.given;
+
+    let points = 0;
+    for (const number of given) {
+      if (winning.includes(number)) {
+        points += 1;
+      }
+    }
+
+    let score = points > 0 ? 1 : 0;
+    for (let i = 0; i < points - 1; i++) {
+      score *= 2;
+    }
+
+    return score;
   }
 
   private get cards(): Card[] {
