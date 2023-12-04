@@ -3,7 +3,7 @@ import chalk from 'chalk';
 import { AbstractPuzzle } from '../abstracts/puzzle';
 import { Puzzle } from '../interfaces/puzzle';
 
-class Puzzle2023031 extends AbstractPuzzle implements Puzzle {
+class Puzzle2023032 extends AbstractPuzzle implements Puzzle {
   constructor() {
     super('2023-03-input.txt');
   }
@@ -187,4 +187,4 @@ class Puzzle2023031 extends AbstractPuzzle implements Puzzle {
   }
 }
 
-export default Puzzle2023031;
+export default Puzzle2023032;
