@@ -14,7 +14,47 @@ class Puzzle2023042 extends AbstractPuzzle implements Puzzle {
     super('2023-04-input.txt');
   }
 
-  public async run() {}
+  private _points = 0;
+
+  public async run() {
+    for (const [id] of Object.entries(this.cards)) {
+      this.calculateScore(parseInt(id));
+    }
+
+    this.output = this._points.toString();
+  }
+
+  private calculateScore(cardId: number) {
+    if (!this.cards[cardId]) {
+      return;
+    }
+
+    this._points += 1;
+
+    const matches = this.findMatches(this.cards[cardId]);
+    const cardIds = [];
+    for (let i = 1; i <= matches.length; i++) {
+      cardIds.push(cardId + i);
+    }
+
+    for (const id of cardIds) {
+      this.calculateScore(id);
+    }
+  }
+
+  private findMatches(card: Card): number[] {
+    const winning = card.winning;
+    const given = card.given;
+
+    const matches = [];
+    for (const number of given) {
+      if (winning.includes(number)) {
+        matches.push(number);
+      }
+    }
+
+    return matches;
+  }
 
   private _cards: Record<number, Card> = {};
   private get cards() {
